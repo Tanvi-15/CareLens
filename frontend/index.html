@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CareLens</title>
+  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e7c6b'/><path d='M9 16h4l2-5 3 10 2-5h3' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><path d="M8 16h4l2.5-6 3 12 2.5-6h4" /></svg>
+      </div>
+      <div>
+        <div class="brand-name">CareLens</div>
+        <div class="brand-sub">Medical reports, explained on-device</div>
+      </div>
+    </div>
+    <div class="profile-bar">
+      <label class="profile-select"><span>👤</span><select id="profileSelect" aria-label="Patient profile"></select></label>
+      <button id="editProfileBtn" class="btn ghost small">Edit</button>
+      <button id="newProfileBtn" class="btn ghost small">+ New</button>
+    </div>
+    <div class="pills">
+      <span id="netPill" class="pill"><span class="dot"></span><span id="netText">Checking network…</span></span>
+      <span id="modelPill" class="pill"><span class="dot"></span><span id="modelText">Model…</span></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Upload -->
+    <section id="uploadView" class="view">
+      <div class="hero">
+        <h1>Understand your medical report.<br /><span>Without it ever leaving this device.</span></h1>
+        <p class="lead">Upload a lab report or scan. A medical AI model running locally reads it, flags what's out of range, and explains it in plain English. It works with no internet at all.</p>
+      </div>
+
+      <label id="drop" class="drop" for="fileInput">
+        <input id="fileInput" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt" hidden />
+        <svg class="drop-icon" viewBox="0 0 24 24"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>
+        <div class="drop-title">Drop your report here</div>
+        <div class="drop-sub">PDF, photo or scan · up to 20 MB</div>
+        <div class="drop-actions">
+          <span class="btn primary">Choose file</span>
+          <button id="sampleBtn" type="button" class="btn ghost">Try a sample report</button>
+        </div>
+      </label>
+
+      <div class="past card" id="pastCard">
+        <div class="card-head"><h3 id="pastTitle">Reports in this profile</h3></div>
+        <div id="pastList" class="past-list"></div>
+      </div>
+
+      <div class="features">
+        <div class="feature"><b>🔒 Stays on this device</b><span>Saved only in a local profile on this machine. Never uploaded.</span></div>
+        <div class="feature"><b>📡 Works offline</b><span>No internet, no cloud API, no account.</span></div>
+        <div class="feature"><b>🩺 Medical-trained model</b><span>MedGemma, built for medical text and images.</span></div>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <section id="loadingView" class="view hidden">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <h2 id="loadingFile">Reading report…</h2>
+        <ol class="steps" id="steps">
+          <li>Reading the report</li>
+          <li>Finding each test result</li>
+          <li>Checking values against reference ranges</li>
+          <li>Writing a plain-English explanation</li>
+        </ol>
+        <div class="timer"><span id="timer">0.0</span>s on-device · 0 bytes sent to the cloud</div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="resultView" class="view hidden">
+      <div class="result-head">
+        <div>
+          <div class="eyebrow" id="reportType">Lab report</div>
+          <h2 id="fileName">report.pdf</h2>
+        </div>
+        <div class="head-actions">
+          <button id="newBtn" class="btn ghost">Upload another</button>
+          <button id="forgetBtn" class="btn danger">Delete this report</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-main">
+          <div id="urgency" class="urgency"></div>
+
+          <div class="card">
+            <h3>In plain English</h3>
+            <p id="summary" class="summary"></p>
+            <div class="stats-row">
+              <div class="stat"><b id="statTotal">0</b><span>tests read</span></div>
+              <div class="stat flag"><b id="statFlag">0</b><span>out of range</span></div>
+              <div class="stat"><b id="statTime">0s</b><span>on-device</span></div>
+              <div class="stat"><b>0 B</b><span>sent to cloud</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Key findings</h3>
+            <ul id="findings" class="findings"></ul>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Your results</h3>
+              <label class="toggle"><input type="checkbox" id="onlyFlagged" /> Only out of range</label>
+            </div>
+            <div id="results" class="results"></div>
+          </div>
+
+          <div class="card">
+            <h3>Questions to ask your doctor</h3>
+            <div id="questions" class="questions"></div>
+          </div>
+        </div>
+
+        <aside class="col-chat card">
+          <div class="chat-head">
+            <h3>Ask the CareLens agent</h3>
+            <span class="chat-sub">It checks your results, medicines and past reports before answering, all on this device</span>
+            <div id="profileNote" class="history-note"></div>
+            <div id="historyNote" class="history-note"></div>
+          </div>
+          <div id="chatLog" class="chat-log"></div>
+          <div id="chips" class="chips"></div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" autocomplete="off" placeholder="Ask a question…" />
+            <button class="btn primary" type="submit">Send</button>
+          </form>
+        </aside>
+      </div>
+      <p class="perf" id="perf"></p>
+    </section>
+  </main>
+
+  <footer>CareLens is an educational prototype, not a medical device. It explains reports; it does not diagnose or give medicine advice. Always talk to your doctor. In an emergency, call your local emergency number.</footer>
+
+  <dialog id="profileDialog" class="dialog">
+    <form id="profileForm" method="dialog">
+      <h3 id="profileDialogTitle">Patient profile</h3>
+      <p class="dialog-sub">Stored only on this device. The agent uses it to personalise answers.</p>
+      <label>Name<input name="name" required placeholder="e.g. Alex Kim" /></label>
+      <div class="row2">
+        <label>Age<input name="age" type="number" min="0" max="120" /></label>
+        <label>Sex<select name="sex"><option value="">Not set</option><option>female</option><option>male</option><option>other</option></select></label>
+      </div>
+      <label>Medicines <small>(comma-separated)</small><input name="medications" placeholder="e.g. atorvastatin, omeprazole" /></label>
+      <label>Conditions <small>(comma-separated)</small><input name="conditions" placeholder="e.g. high cholesterol" /></label>
+      <div class="dialog-actions">
+        <button type="button" id="deleteProfileBtn" class="btn danger">Delete profile</button>
+        <span style="flex:1"></span>
+        <button type="button" id="cancelProfileBtn" class="btn ghost">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js?v=3"></script>
+</body>
+</html>

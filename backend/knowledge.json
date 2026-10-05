@@ -1,0 +1,35 @@
+{
+  "_source": "Offline reference of general patient-education facts. Describes what tests mean and known medicine effects on lab values. Contains NO treatment, drug or dosing advice.",
+  "tests": {
+    "hemoglobin": {"what": "The protein in red blood cells that carries oxygen.", "low": "Anemia. Common causes: iron deficiency, blood loss (including heavy periods), low B12 or folate, chronic disease.", "high": "Dehydration, smoking, living at high altitude, or lung/heart conditions.", "next": "Often checked together with ferritin, iron studies, B12 and folate."},
+    "hematocrit": {"what": "The percentage of your blood made up of red blood cells.", "low": "Usually moves with hemoglobin; suggests anemia.", "high": "Dehydration or conditions that raise red cell production."},
+    "mcv": {"what": "The average size of your red blood cells.", "low": "Small red cells (microcytosis), most commonly from iron deficiency; also thalassemia trait.", "high": "Large red cells, often from low B12 or folate, alcohol use, or some medicines."},
+    "white blood cells": {"what": "Cells that fight infection.", "low": "Viral infections, some medicines, or bone marrow problems.", "high": "Infection, inflammation, stress, steroids, or rarely blood disorders."},
+    "platelets": {"what": "Cell fragments that help blood clot.", "low": "Bleeding risk rises when very low; causes include viral infections, medicines, liver disease.", "high": "Inflammation, iron deficiency, or after surgery."},
+    "ferritin": {"what": "A protein that stores iron; the best single test of your iron stores.", "low": "Low iron stores (iron deficiency), even before anemia appears. Common causes: heavy periods, low dietary iron, poor absorption, blood loss from the gut.", "high": "Inflammation, liver disease, or iron overload.", "next": "Your doctor can look into the cause of low iron stores."},
+    "glucose": {"what": "The sugar level in your blood. Fasting means no food for 8+ hours.", "high": "Fasting 100-125 mg/dL is in the prediabetes range; 126+ on two tests suggests diabetes.", "low": "Below 70 mg/dL can cause shakiness, sweating and confusion."},
+    "hemoglobin a1c": {"what": "Your average blood sugar over the last 2-3 months.", "high": "5.7-6.4% is the prediabetes range; 6.5% or higher suggests diabetes.", "next": "Your doctor will interpret this together with your fasting glucose and health history."},
+    "alt": {"what": "A liver enzyme. When liver cells are irritated or damaged, ALT leaks into the blood.", "high": "Fatty liver (common with high sugar or cholesterol), alcohol, viral hepatitis, or medicines such as statins or acetaminophen.", "next": "Often rechecked, sometimes with a liver ultrasound."},
+    "creatinine": {"what": "A waste product filtered by the kidneys; used to estimate kidney function.", "high": "Reduced kidney function, dehydration, or high muscle mass.", "low": "Low muscle mass; usually not a concern."},
+    "sodium": {"what": "A salt that controls fluid balance and nerve function.", "low": "Too much water, some medicines (like diuretics), or hormone problems.", "high": "Dehydration."},
+    "potassium": {"what": "A mineral important for heart rhythm and muscles.", "low": "Diuretics, vomiting or diarrhea.", "high": "Kidney problems, some blood pressure medicines; can affect heart rhythm."},
+    "total cholesterol": {"what": "All the cholesterol in your blood.", "high": "Raises long-term risk of heart disease and stroke, especially with high LDL."},
+    "ldl cholesterol": {"what": "'Bad' cholesterol that can build up in artery walls.", "high": "Linked to higher long-term risk of heart attack and stroke.", "next": "Doctors weigh LDL with your overall heart risk (age, blood pressure, smoking, diabetes)."},
+    "hdl cholesterol": {"what": "'Good' cholesterol that helps clear other cholesterol.", "low": "Below 40 mg/dL is linked to higher heart risk."},
+    "triglycerides": {"what": "A type of fat in the blood, affected by recent meals, sugar and alcohol.", "high": "Linked to heart risk and prediabetes. Can be affected by recent meals, sugar and alcohol."},
+    "tsh": {"what": "A hormone that tells your thyroid how hard to work.", "high": "Underactive thyroid (hypothyroidism).", "low": "Overactive thyroid (hyperthyroidism)."},
+    "vitamin d": {"what": "A vitamin important for bones, muscles and immunity.", "low": "Common, especially with little sun exposure. Below 20 ng/mL is usually called deficient.", "next": "Your doctor will decide whether anything needs to be done and when to recheck."}
+  },
+  "medications": {
+    "atorvastatin": {"class": "statin", "affects": {"alt": "Statins can raise liver enzymes (ALT). Usually mild, but doctors monitor it."}},
+    "simvastatin": {"class": "statin", "affects": {"alt": "Statins can raise liver enzymes (ALT)."}},
+    "rosuvastatin": {"class": "statin", "affects": {"alt": "Statins can raise liver enzymes (ALT)."}},
+    "metformin": {"class": "diabetes medicine", "affects": {"mcv": "Long-term metformin can lower vitamin B12, which can change red cell size.", "hemoglobin": "Low B12 from metformin can contribute to anemia."}},
+    "acetaminophen": {"class": "pain reliever", "affects": {"alt": "High doses, or use with alcohol, can raise ALT."}},
+    "ibuprofen": {"class": "NSAID", "affects": {"creatinine": "Regular NSAID use can strain the kidneys and raise creatinine.", "hemoglobin": "NSAIDs can cause stomach bleeding, which can lower hemoglobin and ferritin.", "ferritin": "Hidden stomach bleeding from NSAIDs can lower iron stores."}},
+    "omeprazole": {"class": "acid reducer (PPI)", "affects": {"ferritin": "Long-term PPIs reduce stomach acid, which can lower iron absorption.", "hemoglobin": "Reduced iron and B12 absorption can contribute to anemia."}},
+    "levothyroxine": {"class": "thyroid hormone", "affects": {"tsh": "The dose directly changes TSH; it is used to adjust the dose."}},
+    "hydrochlorothiazide": {"class": "diuretic", "affects": {"sodium": "Can lower sodium.", "potassium": "Can lower potassium.", "glucose": "Can slightly raise blood sugar."}},
+    "prednisone": {"class": "steroid", "affects": {"glucose": "Steroids raise blood sugar.", "white blood cells": "Steroids raise the white blood cell count."}}
+  }
+}
